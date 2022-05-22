@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="Mike Dutka">
+    <title>Project Fridge</title>
+    <style>
+        body,
+        html {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .magnet {
+            width: 100px;
+            height: 100px;
+            border: solid 1px;
+            position: absolute;
+            background: darkgray;
+            border-radius: 2px;
+            box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+            min-width: 100px;
+            min-height: 100px;
+            overflow: auto;
+        }
+
+        .magnet:active {
+            background: #588AEE;
+        }
+
+        .resize {
+            background-image: url("img/resize.png");
+            background-repeat: no-repeat;
+            background-size: 15px 15px;
+            height: 15px;
+            width: 15px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .resize:hover {
+            cursor: pointer;
+            background-image: url("img/resize2.png");
+        }
+
+        .remove {
+            position: absolute;
+            font-size: 25px;
+            top: -9px;
+            right: 0;
+            user-select: none;
+        }
+
+        .remove:hover {
+            color: white;
+            cursor: pointer;
+        }
+
+        #przebieg {
+            user-select: none;
+        }
+
+        .tmce {
+            background-image: url("img/edit.png");
+            background-repeat: no-repeat;
+            background-size: 15px 15px;
+            height: 15px;
+            width: 15px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .tmce:hover {
+            cursor: pointer;
+            background-image: url("img/edit2.png");
+        }
+
+        .tmce_box {
+            position: relative;
+            z-index: 65536;
+            width: 100%;
+            height: 100%;
+        }
+
+        .no {
+            background-color: red;
+            width: 18px;
+            height: 18px;
+            position: relative;
+            left: 340px;
+            top: -25px;
+        }
+
+        .yes {
+            background-color: rgb(45, 243, 45);
+            width: 18px;
+            height: 18px;
+            position: relative;
+            left: 368px;
+            top: -43px;
+        }
+    </style>
+    <script src="tinymce/tinymce.min.js"></script>
+</head>
+
+<body>
+    <button onclick="fridge.add();">ADD</button>
+    <div id="przebieg">Przebieg: 0
+        <br> Na stronie: 0</div>
+
+
+
+    <script>
+        var licznik = 0;
+        var licznik2 = 0;
+        var licznik3 = 0;
+        function _Magnet() {
+            this.html_element = null;
+            this.create = function () {
+                var div = document.createElement("div");
+                var div2 = document.createElement("div");
+                var div3 = document.createElement("div");
+                var div4 = document.createElement("div");
+                var textt=document.createElement("div");
+                div.style.zIndex = fridge.collection.length + 1
+                div.className = "magnet";
+                div2.className = "resize";
+                div3.className = "remove";
+                div3.innerHTML = "&times;";
+                div4.className = "tmce";
+                div.addEventListener("mousedown", function (e) {
+                    var top = (parseInt(e.clientY) - parseInt(getComputedStyle(div).top))
+                    var left = (parseInt(e.clientX) - parseInt(getComputedStyle(div).left))
+
+                    var old = window.getComputedStyle(this).zIndex
+
+                    for (var i = 0; i < fridge.collection.length; i++) {
+                        if (fridge.collection[i].html_element.style.zIndex == old) {
+                            var eke = fridge.collection[i]
+                            fridge.collection.splice(i, 1)
+                            fridge.collection.unshift(eke)
+                        }
+                    }
+
+                    for (var i = 0; i < fridge.collection.length; i++) {
+                        fridge.collection[i].html_element.style.zIndex = fridge.collection.length - i
+                    }
+
+                    var move = function (e) {
+                        div.style.top = (parseInt(e.clientY) - top) + "px"
+                        div.style.left = (parseInt(e.clientX) - left) + "px"
+
+                    }
+
+                    document.body.addEventListener("mousemove", move);
+                    var up = function () {
+                        document.body.removeEventListener("mousemove", move);
+                        document.body.removeEventListener("mouseup", up);
+                    }
+                    document.body.addEventListener("mouseup", up);
+
+                });
+                div2.addEventListener("mousedown", function (e) {
+                    event.stopPropagation();
+
+                    var move2 = function (e) {
+                        var dlugosc = parseInt(e.clientX) - parseInt(getComputedStyle(div).left)
+                        var wysokosc = parseInt(e.clientY) - parseInt(getComputedStyle(div).top)
+
+                        div.style.width = dlugosc + "px"
+                        div.style.height = wysokosc + "px"
+
+                    }
+                    document.body.addEventListener("mousemove", move2);
+                    var up2 = function () {
+                        document.body.removeEventListener("mousemove", move2);
+                        document.body.removeEventListener("mouseup", up2);
+                    }
+                    document.body.addEventListener("mouseup", up2);
+
+                });
+
+                div3.addEventListener("mousedown", function () {
+                    for (var i = 0; i < fridge.collection.length; i++) {
+                        if (this.parentElement.style.zIndex == fridge.collection[i].html_element.style.zIndex) {
+                            fridge.collection.splice(i, 1)
+                            console.log(fridge.collection)
+                            break;
+                        }
+                    }
+                    for (var i = 0; i < fridge.collection.length; i++) {
+                        fridge.collection[i].html_element.style.zIndex = fridge.collection.length - i
+                    }
+                    document.body.removeChild(div);
+                    licznik3--
+                    przebieg.innerHTML = "Przebieg: " + licznik2 + "<br> Na stronie: " + licznik3
+                });
+
+                div4.addEventListener("mousedown", function () {
+                    var box = document.createElement("div");
+                    document.body.appendChild(box);
+                    box.className = "tmce_box";
+
+                    var editor = document.createElement("textarea");
+                    box.appendChild(editor);
+
+                    tinymce.init({
+                        selector: 'textarea',
+                        height: 200,
+                        width: 600,
+                        theme: 'modern',
+                        plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template  table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists textcolor wordcount contextmenu colorpicker textpattern',
+                        toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+                        image_advtab: true,
+
+                        templates: [
+                            { title: 'Test template 1', content: 'Test 1' },
+                            { title: 'Test template 2', content: 'Test 2' }
+                        ]
+                    });
+
+                    if (textt.innerHTML) {
+                        tinymce.activeEditor.setContent(textt.innerHTML)
+                    }
+
+                    var cancel = document.createElement("div");
+                    cancel.className = "no";
+
+                    cancel.addEventListener("click", function () {
+                        document.body.removeChild(box)
+                    })
+
+                    box.appendChild(cancel);
+
+                    var save = document.createElement("div");
+                    save.className = "yes";
+
+                    save.addEventListener("click", function () {
+                        var zawartosc = tinymce.activeEditor.getContent({ format: 'raw' });
+                        textt.innerHTML = zawartosc
+                        document.body.removeChild(box)
+                    })
+                    box.appendChild(save);
+                });
+            this.html_element = div;
+            document.body.appendChild(div);
+            div.appendChild(div2)
+            div.appendChild(div3)
+            div.appendChild(div4)
+            div.appendChild(textt)
+        }
+        this.create();
+        }
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var przebieg = document.getElementById("przebieg")
+            fridge = {
+                collection: [],
+                add: function () {
+                    this.collection.push(new _Magnet());
+                    licznik2++;
+                    licznik3++;
+                    przebieg.innerHTML = "Przebieg: " + licznik2 + "<br> Na stronie: " + licznik3
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
