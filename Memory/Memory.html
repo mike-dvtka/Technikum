@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: monaco;
+        }
+
+        #main {
+            margin: 0 auto;
+            width: 408px;
+            text-align: center;
+        }
+
+        #gra {
+            display: none;
+        }
+
+        img {
+            float: left;
+            width: 102px;
+        }
+
+        img:nth-child(4n+1) {
+            clear: both;
+        }
+
+        .test {
+            width: 102px;
+            height: 102px;
+            background: #ff00ff;
+            position: absolute;
+        }
+
+        #start {
+            width: 408px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <h1 id="tytul">MEMORY GAME</h1>
+        <img src="img/start.png" alt="" usemap="#Map" id="start" />
+        <map name="Map" id="Map">
+                    <area alt="" title="" href="#" shape="poly" coords="45,43,70,155,334,65" id="tryb1" />
+                    <area alt="" title="" href="#" shape="poly" coords="92,224,372,239,347,113" id="tryb2" />
+                    <area alt="" title="" href="#" shape="poly" coords="95,273,119,391,379,303" id="tryb3" />
+            </map>
+        <div id="zegar">
+            <div class="linia"></div>
+        </div>
+        <div id="gra">
+            <img src="img/1.jpg" alt="" id="0" class="obrazek">
+            <img src="img/1.jpg" alt="" id="1" class="obrazek">
+            <img src="img/2.jpg" alt="" id="2" class="obrazek">
+            <img src="img/2.jpg" alt="" id="3" class="obrazek">
+            <img src="img/3.jpg" alt="" id="4" class="obrazek">
+            <img src="img/3.jpg" alt="" id="5" class="obrazek">
+            <img src="img/4.jpg" alt="" id="6" class="obrazek">
+            <img src="img/4.jpg" alt="" id="7" class="obrazek">
+            <img src="img/5.jpg" alt="" id="8" class="obrazek">
+            <img src="img/5.jpg" alt="" id="9" class="obrazek">
+            <img src="img/6.jpg" alt="" id="10" class="obrazek">
+            <img src="img/6.jpg" alt="" id="11" class="obrazek">
+            <img src="img/7.jpg" alt="" id="12" class="obrazek">
+            <img src="img/7.jpg" alt="" id="13" class="obrazek">
+            <img src="img/8.jpg" alt="" id="14" class="obrazek">
+            <img src="img/8.jpg" alt="" id="15" class="obrazek">
+        </div>
+    </div>
+    <script>
+        function load_js() {
+    
+        var tryb1 = document.getElementById("tryb1")
+        tryb1.onclick = function () {
+            document.getElementById("gra").style.display = "block";
+            document.getElementById("start").style.display = "none";
+            document.getElementById("tytul").innerHTML = "MEMORY GAME 30[S]"
+            var count = 3000;
+            var counter = setInterval(timer, 10); //10 will  run it every 100th of a second
+            function timer()
+            {
+                if (count <= 0)
+                {
+                    clearInterval(counter);
+                    return;
+                 }
+                 count--;
+                 document.getElementById("zegar").innerHTML=count /100+ " secs"; 
+            }
+            
+        }
+
+        var tryb2 = document.getElementById("tryb2")
+        tryb2.onclick = function () {
+            document.getElementById("gra").style.display = "block";
+            document.getElementById("start").style.display = "none";
+            document.getElementById("tytul").innerHTML = "MEMORY GAME 60[S]"
+            var count = 6000;
+            var counter = setInterval(timer, 10); //10 will  run it every 100th of a second
+            function timer()
+            {
+                if (count <= 0)
+                {
+                    clearInterval(counter);
+                    return;
+                 }
+                 count--;
+                 document.getElementById("zegar").innerHTML=count /100+ " secs"; 
+            }
+            
+        }
+
+        var tryb3 = document.getElementById("tryb3")
+        tryb3.onclick = function () {
+            document.getElementById("gra").style.display = "block";
+            document.getElementById("start").style.display = "none";
+            document.getElementById("tytul").innerHTML = "MEMORY GAME 90[S]"
+            var count = 9000;
+            var counter = setInterval(timer, 10); //10 will  run it every 100th of a second
+            function timer()
+            {
+                if (count <= 0)
+                {
+                    clearInterval(counter);
+                    return;
+                 }
+                 count--;
+                 document.getElementById("zegar").innerHTML=count /100+ " secs"; 
+            }
+            
+        }
+
+
+
+        var last;
+        var licznik = 0;
+        var b = 0;
+        var tab1 = [];
+        var tab2 = "0.jpg";
+        var tab3 = [];
+        var tab4 = [];
+        var el = document.getElementsByClassName("obrazek");
+        for (var i = 0; i < el.length; i++) {
+            tab1[i] = el[i].src.split("/").slice(-1)[0];
+        }
+        function los(tab, i) {
+            i = tab.length; while (i) {
+                tab.push(tab.splice(Math.round(Math.random() * (i - 1)), 1)[0]);
+                i--
+            } return tab;
+        }
+        tab1 = los(tab1, 16)
+        var f = function (a) {
+            return function () {
+                if (b < 2 && last != el[a].id) {
+                    el[a].src = "img/" + tab1[a];
+                    tab3.push(tab1[a])
+                    tab4.push(el[a].id)
+                    last = el[a].id
+                    b++;
+                    if (tab3.length == 2) {
+                        function sec() {
+                            if (tab3[0] == tab3[1]) {
+                                el[tab4[0]].onclick = undefined
+                                el[tab4[1]].onclick = undefined
+                                b = 0;
+                                tab4 = [];
+                                tab3 = [];
+                                last = null;
+                                licznik += 1;
+                                if (licznik == 8) {
+                                    var wynik = window.confirm("Wygrałeś, chcesz zagrać jeszcze raz?")
+                                    if (wynik == true) {
+                                        load_js();
+                                    }
+                                }
+                            }
+                            else {
+                                el[tab4[0]].src = el[tab4[1]].src = "img/" + tab2;
+                                b = 0;
+                                tab4 = [];
+                                tab3 = [];
+                                last = null;
+                            }
+                        }
+                    }
+                    setTimeout(sec, 750);
+                }
+            }
+        }
+        for (var i = 0; i < el.length; i++) {
+            el[i].src = "img/" + tab2;
+            el[i].onclick = f(i);
+        }
+        }
+        load_js();
+    </script>
+</body>
+
+</html>
