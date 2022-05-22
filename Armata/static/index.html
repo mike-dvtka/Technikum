@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NodeJS 08</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/90/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+    <script src="js/Armata.js"></script>
+    <script src="js/Kula.js"></script>
+    <script src="js/Siatka.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/Main.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        .menu {
+            position: absolute;
+            width: 250px;
+            padding: 5px;
+        }
+        input {
+            position: absolute;
+            right: 0;
+        }
+        input[type=number] {
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <div class="menu">
+            Obrót
+            <input type="range" min="0" max="360" value="0" id="oX"><br>
+            Kąt
+            <input type="range" min="0" max="90" value="0" id="oY"><br>
+            Prędkość
+            <input type="range" id="speed" min="10" max="100"><br>
+            Grawitacja
+            <input type="number" id="G" value="9.81"><br>
+            <button id="fire">Fire!</button>
+        </div>
+    </div>
+</body>
+
+</html>
