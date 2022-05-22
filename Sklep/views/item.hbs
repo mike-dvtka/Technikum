@@ -1,0 +1,30 @@
+<link rel="stylesheet" type="text/css" href="../css/main.css">
+<style>
+    .list {
+        border-bottom: none;
+    }
+    .main3 {
+        margin: auto;
+        margin-top: 120px;
+        width: 980px;
+        padding: 20px 0;
+        background: rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        position: relative;
+    }
+</style>
+<div class="main3">
+    <div class="srodek">
+        {{#if doc}}
+        <div class="list">
+            <div class="img1">
+                <img src=../{{doc.img}} alt="">
+            </div>
+            <div class="name">{{doc.nazwa}}</div>
+            <div class="kat">{{UP doc.kategoria}}</div>
+            <div class="cena">{{price doc.cena}} zł</div>
+            <div class="kosz"></div>
+        </div>
+        {{/if}}
+    </div>
+</div>

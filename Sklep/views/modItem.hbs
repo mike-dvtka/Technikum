@@ -1,0 +1,30 @@
+<div class="main">
+    <div class="adding">
+        <form enctype="multipart/form-data" method="POST" action="/updateItem">
+            <div class="form1">
+                <b>Nazwa: </b>
+                <input type="text" name="nazwa" required value={{doc.nazwa}}>
+            </div>
+            <div class="form1">
+                <b>Kategoria: </b>
+                <br>
+                <select name="kategoria" disabled>
+                    <option value="zawieszenia" {{sel1}}>ZAWIESZENIA</option>
+                    <option value="felgi" {{sel2}}>FELGI</option>
+                </select>
+            </div>
+            <div class="form1">
+                <b>Cena (zł): </b>
+                <input type="number" name="cena" required value={{doc.cena}}>
+            </div>
+            <div class="form1" style="width: 200px; border: none;">
+                <b>Zdjęcie: </b>
+                <br>
+                <input type="file" required accept="image/jpg" name="zdjecie">
+            </div>
+            <input type="hidden" name="id" value={{doc._id}}>
+            <input type="hidden" name="kategoria" value={{doc.kategoria}}>
+            <button type="submit" class="bt1">UPDATE</button>
+        </form>
+    </div>
+</div>

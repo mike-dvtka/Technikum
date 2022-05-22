@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Mike Dutka/3ID2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Project - JDM Parts</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Barlow:400,700&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="icon" type="image/png" href="gfx/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="gfx/favicon-16x16.png" sizes="16x16" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="banner">
+        <div class="img"></div>
+        <div class="menu">
+            <form action="/" method="GET">
+                <button class="klik">
+                    <span>HOME</span>
+                </button>
+            </form>
+            <button class="klik" onclick="brak()">
+                <span>KOSZYK: 0</span>
+            </button>
+            <button class="klik" onclick="document.getElementById('id01').style.display='block'" id="login">
+                <span>LOGIN</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div id="id01" class="modal">
+        <div id="id02" class="modal-content animate">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Zamknij">&times;</span>
+            <div class="sec">
+                <div class="captcha"></div>
+                <div class="test" style="left: 80px;"></div>
+                <div class="test" style="left: 290px;"></div>
+                <div class="test" style="left: 500px;"></div>
+                <div class="error"></div>
+                <div class="next">DALEJ</div>
+            </div>
+            <div class="log">
+                <div class="log_in">LOG IN</div>
+                <form action="/login" method="post">
+                    <input type="text" placeholder="Login" name="login" required>
+                    <input type="password" placeholder="Password" name="psw" required>
+                    <button type="submit" class="in_log">
+                        <span>LOG IN</span>
+                    </button>
+                    <div class="kreska">
+                        Not a member?
+                        <div class="sign_up" onclick="alerst()">Sign up now</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    {{{body}}}
+
+
+
+    <script>
+
+
+        function alerst() {
+            window.alert("Kiedyś się zrobi...");
+        }
+        function brak() {
+            window.alert("Strona w trakcie przygotowań");
+        }
+        //zamykanie okna logowania 
+
+        var modal = document.getElementById('id01');
+        var modal2 = document.getElementById('id03');
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            else if (event.target == modal2) {
+                modal2.style.display = "none";
+            }
+        }
+
+        //captcha
+
+        var folder = Math.floor(Math.random() * 3)
+
+        var uniqueRandoms = [];
+        var numRandoms = 3;
+        function makeUniqueRandom() {
+            // refill the array if needed
+            if (!uniqueRandoms.length) {
+                for (var i = 0; i < numRandoms; i++) {
+                    uniqueRandoms.push(i + ".jpg");
+                }
+            }
+            var index = Math.floor(Math.random() * uniqueRandoms.length);
+            var val = uniqueRandoms[index];
+
+            // now remove that value from the array
+            uniqueRandoms.splice(index, 1);
+
+            return val;
+
+        }
+        function losuj() {
+            $(".test").each(function (index, currentElement) {
+                $(this).css("background-image", "url(gfx/" + folder + "/" + makeUniqueRandom() + ")")
+                if (folder == 0) {
+                    $(".captcha").html("Zaznacz wszystkie zdjęcia z zegarem:")
+                }
+                else if (folder == 1) {
+                    $(".captcha").html("Zaznacz wszystkie zdjęcia z psem:")
+                }
+                else {
+                    $(".captcha").html("Zaznacz wszystkie zdjęcia z kubkiem:")
+                }
+            })
+        }
+        function click1() {
+            $(this).css("border", "2px solid blue")
+            $(this).attr("chosed", 1)
+            $(this).on("click", click2)
+        }
+        function click2() {
+            $(this).css("border", "1px solid black")
+            $(this).removeAttr("chosed", 1)
+            $(this).on("click", click1)
+        }
+        var temp = 0;
+        function clean() {
+            $('[chosed=1]').each(function (i, el) {
+                $(this).css("border", "1px solid black")
+                $(this).removeAttr("chosed", 1)
+                $(this).on("click", click1)
+            })
+            temp = 0;
+        }
+        losuj()
+        $(".test").on("click", click1)
+
+        $(".next").on("click", function () {
+            if (folder == 0) {
+                $('[chosed=1]').each(function (i, el) {
+                    var url = $(el).css('background-image').replace(/^url\(['"]?/, '').replace(/['"]?\)$/, '');
+                    var last = url.substr(url.length - 5);
+
+                    if (last == "0.jpg" || last == "2.jpg") {
+                        temp++
+                    }
+                    else {
+                        temp--
+                    }
+                });
+                if (temp == 2) {
+                    $(".sec").css("display", "none")
+                    $(".log").css("display", "block")
+                    $(".modal-content").css({ "width": "400px", "height": "356.4px" })
+                }
+                else {
+                    $(".error").html("Błąd, spróbuj jeszcze raz")
+                    folder = Math.floor(Math.random() * 3)
+                    clean()
+                    losuj()
+                }
+            }
+            else if (folder == 1) {
+                $('[chosed=1]').each(function (i, el) {
+                    var url = $(el).css('background-image').replace(/^url\(['"]?/, '').replace(/['"]?\)$/, '');
+                    var last = url.substr(url.length - 5);
+
+                    if (last == "1.jpg" || last == "2.jpg") {
+                        temp++
+                    }
+                    else {
+                        temp--
+                    }
+                });
+                if (temp == 2) {
+                    $(".sec").css("display", "none")
+                    $(".log").css("display", "block")
+                    $(".modal-content").css({ "width": "400px", "height": "356.4px" })
+                }
+                else {
+                    $(".error").html("Błąd, spróbuj jeszcze raz")
+                    folder = Math.floor(Math.random() * 3)
+                    clean()
+                    losuj()
+                }
+            }
+            else {
+                $('[chosed=1]').each(function (i, el) {
+                    var url = $(el).css('background-image').replace(/^url\(['"]?/, '').replace(/['"]?\)$/, '');
+                    var last = url.substr(url.length - 5);
+
+                    if (last == "0.jpg" || last == "1.jpg") {
+                        temp++
+                    }
+                    else {
+                        temp--
+                    }
+                });
+                if (temp == 2) {
+                    $(".sec").css("display", "none")
+                    $(".log").css("display", "block")
+                    $(".modal-content").css({ "width": "400px", "height": "356.4px" })
+                }
+                else {
+                    $(".error").html("Błąd, spróbuj jeszcze raz")
+                    folder = Math.floor(Math.random() * 3)
+                    clean()
+                    losuj()
+                }
+            }
+        })
+        $(".close").on("click", function () {
+            $(".error").html("")
+            folder = Math.floor(Math.random() * 3)
+            clean()
+            losuj()
+        })
+        $("#id01").on("click", function (e) {
+            if ($("#id02").has(e.target).length == 0) {
+                $(".error").html("")
+                folder = Math.floor(Math.random() * 3)
+                clean()
+                losuj()
+            }
+        })
+    </script>
+</body>
+
+</html>

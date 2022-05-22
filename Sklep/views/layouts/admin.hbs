@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Mike Dutka/3ID2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Project - JDM Parts</title>
+    <link rel="stylesheet" type="text/css" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css?family=Barlow:400,700&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="icon" type="image/png" href="gfx/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="gfx/favicon-16x16.png" sizes="16x16" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="banner">
+        <div class="img"></div>
+        <div class="menu">
+            <form action="/add" method="GET">
+                <button class="klik">
+                    <span>ADD</span>
+                </button>
+            </form>
+            <form action="/modify" method="GET">
+                <button class="klik">
+                    <span>MODIFY</span>
+                </button>
+            </form>
+            <div class="logged">
+                LOGGED AS: <div class="color">{{UP user}}</div>
+            </div>
+            <form action="/" method="GET">
+                <button class="klik">
+                    <span>LOG OUT</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+
+    
+        {{{body}}}
+    
+</body>
+
+</html>

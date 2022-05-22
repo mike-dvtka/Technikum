@@ -1,0 +1,54 @@
+<div class="main1">
+    <div class="felgi">FELGI</div>
+</div>
+<div class="main2">
+    <table class="tab1" cellspacing="0">
+        {{#each docs1}}
+        <tr>
+            <td class="img1">
+                <img src={{img}} alt="">
+            </td>
+            <td class="name">{{nazwa}}</td>
+            <td class="kat">{{UP kategoria}}</td>
+            <td class="cena">{{price cena}} zł</td>
+            <td class="mod">
+                <form action="/modItem" method="GET">
+                    <button type="submit" class="modyfikuj" name="mod_id" value={{_id}}>MODYFIKUJ</button>
+                </form>
+            </td>
+            <td class="del">
+                <form action="/removeItem" method="GET">
+                    <button type="submit" class="usun" name="usun_id" value={{_id}}>&times;</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>
+<div class="main3">
+    <div class="felgi">ZAWIESZENIA</div>
+</div>
+<div class="main2">
+    <table class="tab1" cellspacing="0">
+        {{#each docs2}}
+        <tr>
+            <td class="img1">
+                <img src={{img}} alt="">
+            </td>
+            <td class="name">{{nazwa}}</td>
+            <td class="kat">{{UP kategoria}}</td>
+            <td class="cena">{{price cena}} zł</td>
+            <td class="mod">
+                <form action="/modItem" method="GET">
+                    <button type="submit" class="modyfikuj" name="mod_id" value={{_id}}>MODYFIKUJ</button>
+                </form>
+            </td>
+            <td class="del">
+                <form action="/removeItem" method="GET">
+                    <button type="submit" class="usun" name="usun_id" value={{_id}}>&times;</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>

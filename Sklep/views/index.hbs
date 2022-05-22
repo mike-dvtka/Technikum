@@ -1,0 +1,85 @@
+<div class="main">
+    <form action="/search" method="GET">
+        <input type="search" name="szukacz" class="szukacz" placeholder="Wyszukaj:" />
+    </form>
+    <form action="/sort" method="GET">
+        <select name="sorter" id="sorter" onchange="this.form.submit();">
+            <option value="1" {{sel1}}>Nazwa A-Z</option>
+            <option value="-1" {{sel2}}>Nazwa Z-A</option>
+            <option value="10" {{sel3}}>Cena rosnąco</option>
+            <option value="-10" {{sel4}}>Cena malejąco</option>
+        </select>
+    </form>
+    <div class="pokaz">Pokaż</div>
+    <form action="/paginate" method="get">
+        <select name="paginate" id="pag" onchange="this.form.submit();">
+            <option value="0" {{sel5}}>Wszystko</option>
+            <option value="4" {{sel6}}>4</option>
+            <option value="8" {{sel7}}>8</option>
+            <option value="16" {{sel8}}>16</option>
+        </select>
+    </form>
+    <div class="pokaz" style="left: 130px;">na stronie</div>
+
+    <button class="bt2">List</button>
+    <button class="bt3">Grid</button>
+</div>
+<div class="main1">
+    <div class="srodek">
+        {{#each docs1}}
+        <div class="list">
+            <div class="img1">
+                <img src={{img}} alt="">
+            </div>
+            <div class="name">{{nazwa}}</div>
+            <div class="kat">{{UP kategoria}}</div>
+            <div class="cena">{{price cena}} zł</div>
+            <div class="kosz"></div>
+        </div>
+        {{/each}} {{#each docs2}}
+        <div class="list">
+            <div class="img1">
+                <img src={{img}} alt="">
+            </div>
+            <div class="name">{{nazwa}}</div>
+            <div class="kat">{{UP kategoria}}</div>
+            <div class="cena">{{price cena}} zł</div>
+            <div class="kosz"></div>
+        </div>
+        {{/each}}
+    </div>
+    <div class="srodek_grid">
+        {{#each docs1}}
+        <div class="list_grid">
+            <div class="img1_grid">
+                <img src={{img}} alt="">
+            </div>
+            <div class="name_grid">{{nazwa}}</div>
+            <div class="kat_grid">{{UP kategoria}}</div>
+            <div class="cena_grid">{{price cena}} zł</div>
+            <div class="kosz_grid">Dodaj do koszyka</div>
+        </div>
+        {{/each}} {{#each docs2}}
+        <div class="list_grid">
+            <div class="img1_grid">
+                <img src={{img}} alt="">
+            </div>
+            <div class="name_grid">{{nazwa}}</div>
+            <div class="kat_grid">{{UP kategoria}}</div>
+            <div class="cena_grid">{{price cena}} zł</div>
+            <div class="kosz_grid">Dodaj do koszyka</div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<script>
+    $(".bt2").on("click", function () {
+        $(".srodek").css("display", "block")
+        $(".srodek_grid").css("display", "none")
+    })
+    $(".bt3").on("click", function () {
+        $(".srodek_grid").css("display", "block")
+        $(".srodek").css("display", "none")
+    })
+</script>
